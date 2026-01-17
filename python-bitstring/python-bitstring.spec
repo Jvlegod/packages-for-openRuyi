@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: (C) 2025 Institute of Software, Chinese Academy of Sciences (ISCAS)
+# SPDX-FileCopyrightText: (C) 2026 Institute of Software, Chinese Academy of Sciences (ISCAS)
 # SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
 # SPDX-FileContributor: Jvle <keke.oerv@isrc.iscas.ac.cn>
 #
@@ -17,9 +17,15 @@ URL:            https://github.com/scott-griffiths/bitstring
 Source0:        https://files.pythonhosted.org/packages/source/b/%{srcname}/%{srcname}-%{version}.tar.gz
 
 BuildArch:      noarch
-BuildRequires:  python3-devel
+BuildSystem:    pyproject
+
+BuildOption(install): -l %{srcname}
+
 BuildRequires:  pyproject-rpm-macros
-BuildRequires:  python3-setuptools >= 61
+BuildRequires:  python3-devel
+
+Provides:       python3-%{srcname}
+%python_provide python3-%{srcname}
 
 %global _description %{expand:
 bitstring is a pure Python module designed to help make the creation and
@@ -34,26 +40,10 @@ to a file or stream.
 
 %description %_description
 
-%package -n python3-%{srcname}
-Summary: %{summary}
-%{?python_provide:%python_provide python3-%{srcname}}
-
-%description -n python3-%{srcname} %_description
-
-%prep
-%autosetup -n %{srcname}-%{version}
-
 %generate_buildrequires
 %pyproject_buildrequires
 
-%build
-%pyproject_wheel
-
-%install
-%pyproject_install
-%pyproject_save_files %{srcname}
-
-%files -n python3-%{srcname} -f %{pyproject_files}
+%files -f %{pyproject_files}
 %license LICENSE
 %doc README.md
 

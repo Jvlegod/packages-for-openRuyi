@@ -15,35 +15,24 @@ URL:            https://github.com/angr/archinfo
 #!RemoteAsset
 Source0:        https://files.pythonhosted.org/packages/source/a/%{srcname}/%{srcname}-%{version}.tar.gz
 BuildArch:      noarch
+BuildSystem:    pyproject
+
+BuildOption(install): -l %{srcname}
+
+BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
+
+Provides:       python3-%{srcname}
+%python_provide python3-%{srcname}
 
 %description
 archinfo is a collection of classes that contain architecture-specific
 information. It is useful for cross-architecture tools.
 
-%package -n     python3-%{srcname}
-Summary:        %{summary}
-
-BuildRequires:  python3-devel
-BuildRequires:  python3-setuptools
-
-%description -n python3-%{srcname}
-archinfo is a collection of classes that contain architecture-specific
-information. It is useful for cross-architecture tools.
-
-%prep
-%autosetup -n %{srcname}-%{version}
-
 %generate_buildrequires
 %pyproject_buildrequires
 
-%build
-%pyproject_wheel
-
-%install
-%pyproject_install
-%pyproject_save_files %{srcname} -l
-
-%files -n python3-%{srcname} -f %{pyproject_files}
+%files -f %{pyproject_files}
 %doc README.md
 
 %changelog
