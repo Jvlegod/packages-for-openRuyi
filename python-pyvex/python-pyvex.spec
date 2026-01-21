@@ -1,5 +1,5 @@
-# SPDX-FileCopyrightText: (C) 2025 Institute of Software, Chinese Academy of Sciences (ISCAS)
-# SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
+# SPDX-FileCopyrightText: (C) 2026 Institute of Software, Chinese Academy of Sciences (ISCAS)
+# SPDX-FileCopyrightText: (C) 2026 openRuyi Project Contributors
 # SPDX-FileContributor: Jvle <keke.oerv@isrc.iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
@@ -13,10 +13,6 @@ Release:        %autorelease
 Summary:        A Python interface to libvex and VEX IR
 License:        BSD-2-Clause and GPL-3.0-or-later and LGPL-2.0-only
 URL:            https://github.com/angr/pyvex
-
-Provides:       python3-%{srcname} = %{version}-%{release}
-%python_provide python3-%{srcname}
-
 #!RemoteAsset
 Source0:        https://github.com/angr/pyvex/archive/v%{version}/pyvex-%{version}.tar.gz
 #!RemoteAsset
@@ -36,16 +32,10 @@ BuildRequires:  python3dist(scikit-build-core) >= 0.11.4
 BuildRequires:  python3dist(cffi) >= 1.0.3
 BuildRequires:  python3-bitstring
 
-BuildSystem:    pyproject
-
 %description %_description
 
-%package -n python3-%{srcname}
-Summary:        %{summary}
-Provides:       python3-%{srcname} = %{version}-%{release}
+Provides:       python3-%{srcname}
 %python_provide python3-%{srcname}
-
-%description -n python3-%{srcname} %_description
 
 %prep
 %autosetup -p1 -n %{srcname}-%{version}
@@ -65,7 +55,6 @@ mv vex-%{libvexversion} vex
 %install
 %pyproject_install
 mv pyvex_c/LICENSE LICENSE-pyvex_c
-
 %pyproject_save_files -l pyvex
 
 %check
@@ -85,7 +74,7 @@ do
     %{py3_test_envvars} %{python3} $f
 done
 
-%files -n python3-%{srcname} -f %{pyproject_files}
+%files -f %{pyproject_files}
 %doc README.md
 %license LICENSE
 %license LICENSE-pyvex_c
